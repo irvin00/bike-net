@@ -39,6 +39,7 @@ public/                     static site (publish directory)
   settings/data.html        export / import
   static/                   CSS, images, and all browser JS
 netlify/
+  edge-functions/auth.ts    HTTP Basic Auth gate for the whole site
   functions/api.ts          the only function: /api/* router
   lib/                      http, db, blob store, validation helpers
   routes/                   one module per original app/routes/*.py
@@ -93,6 +94,36 @@ helper module as a separate function.
      setup below adds it), it overrides the local database and `netlify dev`
      will talk to that URL instead. Comment it out for offline development.
 
+## Access control (HTTP Basic Auth)
+
+The whole site — static pages, `/api/*`, images, and direct function URLs — is
+gated by a Netlify Edge Function
+([netlify/edge-functions/auth.ts](netlify/edge-functions/auth.ts)) using the
+browser's standard username/password prompt. Credentials are checked against a
+SHA-256 hash, so the password itself is never stored or committed.
+
+Set two environment variables:
+
+- `SITE_AUTH_USER` — username (defaults to `admin` if unset).
+- `SITE_PASSWORD_HASH` — the password's SHA-256, generated with:
+
+  ```sh
+  echo -n "your-password" | shasum -a 256
+  ```
+
+Locally, put both in `.env`; `netlify dev` loads it, so use a test password.
+In production, set them in Netlify UI → Site configuration → Environment
+variables **before the first deploy**. The gate fails closed: if
+`SITE_PASSWORD_HASH` is missing or is not a 64-character hex hash, every
+request returns `503` rather than serving the site unprotected.
+
+The browser resends the cached credentials automatically on same-origin
+`fetch` and `<img>` requests, so the front end needs no changes. There is no
+logout — Basic Auth credentials are cached per origin until the browser is
+restarted (or in a private window) — and it is a single shared credential, not
+per-user accounts. Netlify serves the site over HTTPS, so credentials are
+encrypted in transit.
+
 ## Deploy
 
 Connect this repo to a Netlify site (Git-based deploy) or deploy with the CLI.
@@ -106,15 +137,10 @@ Connect this repo to a Netlify site (Git-based deploy) or deploy with the CLI.
 No `/api/*` redirect is needed: the function declares
 `export const config = { path: "/api/*" }`.
 
-The API needs no environment variables in the Netlify UI. Inside Functions,
-the database connection is resolved from the site's Netlify Database
-configuration and Blobs credentials are injected by the runtime.
-
-> **The site has no authentication.** Anyone who has the URL can read, edit,
-> and delete bikes, pills, photos, and run the destructive import. This matches
-> the original app, which was LAN-only. On the public internet, enable Netlify
-> **Visitor Access** (Site configuration → Access control) as the zero-code
-> mitigation, or keep the site unlisted.
+Inside Functions, the database connection is resolved from the site's Netlify
+Database configuration and Blobs credentials are injected by the runtime. The
+only environment variables to set in the Netlify UI are `SITE_AUTH_USER` and
+`SITE_PASSWORD_HASH` for the Basic Auth gate described above.
 
 ## Migrating existing data
 
@@ -140,9 +166,10 @@ schema exists (deploy once, or apply migrations as above).
    - `NETLIFY_SITE_ID` — Site configuration → General → Site ID.
    - `NETLIFY_BLOBS_TOKEN` — Data & Storage → Blobs → tokens.
 
-   These are only for running the migration script from your machine. They are
-   gitignored via `.env`; never commit them. Functions do not read `.env` in
-   production.
+   These are only for running the migration script from your machine. The auth
+   variables from the section above can live in the same `.env`; they do not
+   affect the migration. The file is gitignored; never commit real values.
+   Functions do not read `.env` in production.
 
 2. Run the migration:
 
@@ -270,3 +297,11 @@ in previews.
   comment `NETLIFY_DB_URL`, `NETLIFY_SITE_ID`, and `NETLIFY_BLOBS_TOKEN` in
   `.env`. Those variables exist for the one-time migration script and override
   the local database and Blobs sandbox.
+- **Every request returns 503 `Site authentication is not configured`** —
+  `SITE_PASSWORD_HASH` is missing or is not a 64-character hex SHA-256.
+  Generate it with `echo -n "your-password" | shasum -a 256` and set it both
+  locally and in the Netlify UI.
+- **The browser keeps prompting for a password** — the hash was made from the
+  wrong string (note the `-n`: a trailing newline changes the hash), or the
+  username does not match `SITE_AUTH_USER`. Fix the values; browsers cache
+  rejected Basic Auth attempts per origin, so try a private window.
