@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings / Data — Bike View</title>
+  <link rel="icon" type="image/jpeg" href="/static/img/favicon.jpg">
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <a href="/" class="nav__title">Bike View</a>
+      <div class="nav__actions">
+        <a href="/bikes/new" class="btn btn--primary">+ Add Bike</a>
+        <a href="/pills" class="btn btn--ghost">Pills</a>
+        <button type="button" class="settings-open-btn" id="settings-open-btn" aria-label="Open settings" title="Settings">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>Settings / Data</h1>
+      <a href="/" class="btn btn--ghost">Back to bikes</a>
+    </div>
+
+    <div class="settings-block">
+      <h2>Export</h2>
+      <p>Download everything as a <code>bike_view.json</code> file: bikes with
+        their pills, images (as filenames), and maintenance records, plus the
+        pill catalog. Image files live in Netlify Blobs — the JSON alone is not a
+        full photo backup.</p>
+      <a href="/api/export" class="btn btn--primary">Download bike_view.json</a>
+    </div>
+
+    <div class="settings-block">
+      <h2>Import</h2>
+      <p>Restore from a <code>bike_view.json</code> export. This
+        <strong>replaces all current data</strong> — existing bikes, pills,
+        photos, and maintenance records are deleted first. Restored image rows
+        render only when the matching files are present in Netlify Blobs;
+        otherwise they fall back to the placeholder.</p>
+      <div class="import-controls">
+        <input type="file" id="import-file" accept=".json,application/json">
+        <button type="button" id="import-btn" class="btn btn--danger" disabled>Import</button>
+      </div>
+      <p id="import-status" class="settings-status" hidden></p>
+    </div>
+  </main>
+
+  <dialog id="confirm-dialog" class="confirm-dialog">
+    <div class="confirm-dialog__body">
+      <p class="confirm-dialog__message" id="confirm-dialog-message"></p>
+      <div class="confirm-dialog__actions">
+        <button type="button" class="btn btn--ghost" id="confirm-cancel" autofocus>Cancel</button>
+        <button type="button" class="btn btn--danger" id="confirm-ok">Delete</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="settings-drawer" class="settings-drawer">
+    <div class="settings-drawer__header">
+      <h2 class="settings-drawer__title">Settings</h2>
+      <button type="button" class="settings-drawer__close" id="settings-close-btn" aria-label="Close settings">&times;</button>
+    </div>
+    <nav class="settings-drawer__sections" aria-label="Settings sections">
+      <a href="/settings/data" class="settings-drawer__section">Data</a>
+    </nav>
+  </dialog>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/ui.js"></script>
+  <script src="/static/js/image-fallback.js"></script>
+  <script src="/static/js/confirm-dialog.js"></script>
+  <script src="/static/js/settings-drawer.js"></script>
+  <script src="/static/js/settings-data.js"></script>
+</body>
+</html>

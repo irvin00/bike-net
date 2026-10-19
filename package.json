@@ -1,0 +1,25 @@
+{
+  "name": "bike-view-netlify",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bike View — static pages + Netlify Functions + Netlify Database + Netlify Blobs",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "dev": "netlify dev",
+    "typecheck": "tsc --noEmit",
+    "migrate": "node scripts/migrate.ts"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^11.1.4",
+    "@netlify/database": "^2.0.1",
+    "@netlify/functions": "^6.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "netlify-cli": "^27.13.0",
+    "typescript": "~5.9.3"
+  }
+}

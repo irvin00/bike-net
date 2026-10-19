@@ -1,0 +1,36 @@
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# The /api/* catch-all function is wired with `export const config = { path: "/api/*" }`
+# inside netlify/functions/api.ts (Functions v2 path routing) — no redirect needed.
+
+# Pretty URLs. Static shells are rendered client-side from location.pathname.
+# Order matters: specific routes must precede /bikes/:id (first match wins).
+[[redirects]]
+  from = "/pills"
+  to = "/pills.html"
+  status = 200
+
+[[redirects]]
+  from = "/settings/data"
+  to = "/settings/data.html"
+  status = 200
+
+[[redirects]]
+  from = "/bikes/new"
+  to = "/bikes/new.html"
+  status = 200
+
+[[redirects]]
+  from = "/bikes/:id/edit"
+  to = "/bikes/edit.html"
+  status = 200
+
+[[redirects]]
+  from = "/bikes/:id"
+  to = "/bikes/detail.html"
+  status = 200

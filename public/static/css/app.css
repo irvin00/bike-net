@@ -1,0 +1,1333 @@
+/* === Design Tokens === */
+:root {
+  --color-bg: #f9fafb;
+  --color-surface: #ffffff;
+  --color-border: #e5e7eb;
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+  --color-active: #059669;
+  --color-former: #9ca3af;
+  --color-danger: #dc2626;
+  --color-accent: #2563eb;
+  --radius-card: 12px;
+  --radius-pill: 999px;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --gap-grid: 1.5rem;
+}
+
+/* === Reset & Base === */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* === Layout === */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  container-type: inline-size;
+  container-name: page;
+}
+
+/* === Nav === */
+.nav {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  transition: color 0.15s;
+}
+
+.nav__title:hover {
+  color: var(--color-accent);
+}
+
+.nav__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* === Status Filter === */
+.status-filter {
+  display: flex;
+  gap: 0.25rem;
+  background: var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 0.2rem;
+}
+
+.status-filter__btn {
+  border: none;
+  background: transparent;
+  padding: 0.35rem 1rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.875rem;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: background 0.15s, color 0.15s;
+}
+
+.status-filter__btn:hover {
+  color: var(--color-text);
+}
+
+.status-filter__btn.active {
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* === Nav (mobile) === */
+@media (max-width: 640px) {
+  .nav {
+    padding: 0.75rem 0;
+  }
+
+  .nav .container {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+  }
+
+  .nav__title {
+    font-size: 1.1rem;
+  }
+
+  .nav__actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .status-filter__btn {
+    padding: 0.2rem 0.7rem;
+    font-size: 1.00rem;
+  }
+
+  .nav__actions .btn {
+    padding: 0.35rem 0.8rem;
+    font-size: 0.8125rem;
+  }
+}
+
+/* === Page Header === */
+.page-header {
+  padding: 2rem 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.page-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* === Buttons === */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.btn--primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.btn--primary:hover {
+  opacity: 0.9;
+}
+
+.btn--danger {
+  background: var(--color-danger);
+  color: #fff;
+}
+
+.btn--danger:hover {
+  opacity: 0.9;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--color-text-muted);
+}
+
+.btn--ghost:hover {
+  background: var(--color-border);
+}
+
+/* === Focus States === */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Bare inputs on the maintenance/pills forms mirror the .form-field
+   focus treatment (border + ring instead of outline). */
+.maintenance-form input:focus,
+.maintenance-record__edit-form input:focus,
+.pill-form input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* === Card Grid === */
+.bike-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-grid);
+  padding-bottom: 3rem;
+}
+
+/* Container breakpoints compensate for the .container's 2x1rem padding so
+   behavior matches the old 900px / 600px viewport media queries exactly. */
+@container page (max-width: 868px) {
+  .bike-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@container page (max-width: 568px) {
+  .bike-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === Bike Card === */
+.bike-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.bike-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.bike-card__image-link {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 3 / 2;
+}
+
+.bike-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.bike-card:hover .bike-card__image {
+  transform: scale(1.03);
+}
+
+.bike-card__image--placeholder,
+.image-fallback {
+  object-fit: contain;
+  padding: 1rem;
+}
+
+.bike-card__body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.bike-card__name {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.bike-card__name-text {
+  cursor: text;
+  border-bottom: 1px dashed transparent;
+  transition: border-color 0.15s;
+}
+
+.bike-card__name-text:hover {
+  border-bottom-color: var(--color-text-muted);
+}
+
+.bike-card__name-input {
+  font: inherit;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: 1px solid var(--color-accent);
+  border-radius: 4px;
+  padding: 0.1rem 0.3rem;
+  width: 100%;
+  outline: none;
+}
+
+.bike-card__desc {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* === Pills === */
+.bike-card__pills {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  overflow-x: auto;
+  padding-bottom: 0.15rem;
+}
+
+.pill-badge {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  /* transform/opacity only: the badge's background is an inline style */
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.pill-badge:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+/* === Card Footer === */
+.bike-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.bike-card__status {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-pill);
+}
+
+.status--active {
+  background: #ecfdf5;
+  color: var(--color-active);
+}
+
+.status--former {
+  background: #f3f4f6;
+  color: var(--color-former);
+}
+
+.bike-card__delete {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.3rem;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+}
+
+.bike-card__delete:hover {
+  color: var(--color-danger);
+  background: #fef2f2;
+}
+
+/* === Empty State === */
+.empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+.empty-state a {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* === Back Link === */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  padding: 1rem 0;
+  transition: color 0.15s;
+}
+
+.back-link::before {
+  content: "\2190";
+}
+
+.back-link:hover {
+  color: var(--color-accent);
+}
+
+/* === Detail Page Layout === */
+.bike-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 1.5rem 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .bike-detail {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === Image Gallery === */
+.gallery {
+  position: relative; /* images' offsetLeft is measured against this container */
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  border-radius: var(--radius-card);
+  height: 500px;
+  scrollbar-width: none;
+}
+
+.gallery::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery__image {
+  scroll-snap-align: start;
+  flex: 0 0 100%; /* one image per viewport — no peek of the next slide */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.gallery__image:hover {
+  opacity: 0.85;
+}
+
+/* === Gallery Nav Arrows === */
+.gallery-nav {
+  position: relative;
+}
+
+.gallery-nav__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-text);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.gallery-nav__arrow--prev {
+  left: 0.75rem;
+}
+
+.gallery-nav__arrow--next {
+  right: 0.75rem;
+}
+
+.gallery-nav__arrow:hover:not(:disabled) {
+  background: #fff;
+}
+
+.gallery-nav__arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.gallery-nav__icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* === Image Modal === */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 8px;
+  cursor: default;
+  object-fit: contain;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1;
+  transition: opacity 0.15s;
+}
+
+.modal-close:hover {
+  opacity: 0.7;
+}
+
+/* === Bike Info (Detail Page) === */
+.bike-detail__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.bike-info__name {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.bike-info__meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.bike-info__description {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
+.bike-info__full-story {
+  white-space: pre-wrap;
+  line-height: 1.7;
+  color: var(--color-text);
+  font-size: 0.9375rem;
+}
+
+.bike-info__pills {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0;
+}
+
+.bike-detail__actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  align-self: flex-start;
+}
+
+/* === Maintenance Section === */
+.maintenance-section {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.maintenance-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.maintenance-header h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+/* Maintenance Add Form */
+.maintenance-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: var(--color-bg);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.maintenance-form--hidden {
+  display: none;
+}
+
+.maintenance-form input {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.maintenance-form input[type="date"] {
+  width: 150px;
+}
+
+.maintenance-form input[type="text"] {
+  flex: 1;
+  min-width: 180px;
+}
+
+.maintenance-form input[type="number"] {
+  width: 110px;
+}
+
+/* Maintenance Timeline */
+.maintenance-timeline {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.maintenance-timeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-border);
+}
+
+.maintenance-record {
+  position: relative;
+  padding: 1rem;
+  background: var(--color-surface);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.maintenance-record:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+
+.maintenance-record::before {
+  content: "";
+  position: absolute;
+  left: -1.35rem;
+  top: 1.2rem;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  border: 2px solid var(--color-surface);
+}
+
+.maintenance-record__date {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.maintenance-record__desc {
+  font-size: 0.9375rem;
+}
+
+.maintenance-record__cost {
+  display: inline-block;
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-active);
+  background: #ecfdf5;
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--radius-pill);
+}
+
+.maintenance-record__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.maintenance-record__edit,
+.maintenance-record__delete {
+  background: none;
+  border: none;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.maintenance-record__edit:hover {
+  color: var(--color-accent);
+  background: #eff6ff;
+}
+
+.maintenance-record__delete:hover {
+  color: var(--color-danger);
+  background: #fef2f2;
+}
+
+/* Maintenance Record Edit Form */
+.maintenance-record__edit-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.maintenance-record__edit-form input {
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.8125rem;
+}
+
+.maintenance-record__edit-form input[type="date"] {
+  width: 140px;
+}
+
+.maintenance-record__edit-form input[type="text"] {
+  flex: 1;
+  min-width: 150px;
+}
+
+.maintenance-record__edit-form input[type="number"] {
+  width: 100px;
+}
+
+.maintenance-record__edit-actions {
+  display: flex;
+  gap: 0.35rem;
+}
+
+.maintenance-record__edit-save,
+.maintenance-record__edit-cancel {
+  font-size: 0.8125rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.maintenance-record__edit-save {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.maintenance-record__edit-save:hover {
+  opacity: 0.9;
+}
+
+.maintenance-record__edit-cancel {
+  background: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.maintenance-record__edit-cancel:hover {
+  background: #d1d5db;
+}
+
+/* === Bike Form Page === */
+.bike-form {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1.5rem 0 3rem;
+}
+
+.bike-form h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.form-field {
+  margin-bottom: 1.25rem;
+}
+
+.form-field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+  font-size: 0.875rem;
+  color: var(--color-text);
+}
+
+.form-field input[type="text"],
+.form-field input[type="date"],
+.form-field textarea {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 0.9375rem;
+  transition: border-color 0.15s;
+  background: var(--color-surface);
+}
+
+.form-field input[type="text"]:focus,
+.form-field input[type="date"]:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-field textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* Radio Group */
+.radio-group {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.radio-group label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 400;
+  font-size: 0.9375rem;
+  cursor: pointer;
+}
+
+.radio-group input[type="radio"] {
+  accent-color: var(--color-accent);
+}
+
+/* Pill Selector */
+.pill-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pill-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  background: color-mix(in srgb, var(--pill-color, #6b7280) 8%, transparent);
+  color: var(--pill-color, #6b7280);
+}
+
+.pill-option:hover {
+  border-color: var(--pill-color, #6b7280);
+  background: color-mix(in srgb, var(--pill-color, #6b7280) 15%, transparent);
+}
+
+.pill-option input[type="checkbox"] {
+  accent-color: var(--pill-color, #6b7280);
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+  margin-top: 0.5rem;
+}
+
+/* Image Upload (Edit Form) */
+.upload-zone {
+  border: 2px dashed var(--color-border);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  margin-bottom: 0.75rem;
+}
+
+.upload-zone:hover {
+  border-color: var(--color-accent);
+}
+
+.upload-zone.dragover {
+  border-color: var(--color-accent);
+  background: #eff6ff;
+}
+
+.image-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.image-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.image-row:hover {
+  border-color: var(--color-accent);
+}
+
+.image-row img {
+  width: 64px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.image-row__handle {
+  cursor: grab;
+  color: var(--color-text-muted);
+  user-select: none;
+}
+
+.image-row__handle:active {
+  cursor: grabbing;
+}
+
+.image-row__primary {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+  margin-left: auto;
+}
+
+.image-row__primary:hover {
+  color: var(--color-accent);
+  background: #eff6ff;
+}
+
+.image-row.is-primary .image-row__primary {
+  color: #d97706;
+}
+
+.image-row__delete {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+
+/* Pending rows (create form) have no star button — keep the delete
+   button right-aligned like the star pushes it in edit mode. */
+.image-row.is-pending .image-row__delete {
+  margin-left: auto;
+}
+
+.image-row__delete:hover {
+  color: var(--color-danger);
+  background: #fef2f2;
+}
+
+.image-row.dragging {
+  opacity: 0.4;
+}
+
+/* === Empty Gallery State === */
+.gallery--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  background: var(--color-bg);
+  border-radius: var(--radius-card);
+  border: 2px dashed var(--color-border);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+/* === Pills Page === */
+.pill-form {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  padding: 1rem;
+  background: var(--color-bg);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.pill-form input {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.pill-form input[type="text"] {
+  flex: 1;
+  min-width: 180px;
+}
+
+.pill-form input[type="color"] {
+  width: 56px;
+  height: 36px;
+  padding: 2px;
+  cursor: pointer;
+}
+
+.pill-note {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  margin: 0 0 1rem;
+}
+
+.pill-list {
+  list-style: none;
+}
+
+.pill-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--color-surface);
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  box-shadow: var(--shadow-card);
+  transition: background 0.15s, box-shadow 0.15s;
+}
+
+.pill-row:hover {
+  background: var(--color-bg);
+}
+
+.pill-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.pill-row__label {
+  flex: 1;
+  font-size: 0.9375rem;
+}
+
+.pill-row__delete {
+  background: none;
+  border: none;
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+}
+
+.pill-row__delete:hover {
+  color: var(--color-danger);
+  background: #fef2f2;
+}
+
+/* === Error Banner === */
+.banner {
+  position: fixed;
+  top: 4.25rem; /* clears the sticky nav (~61px) */
+  left: 50%;
+  transform: translate(-50%, -0.5rem);
+  max-width: min(520px, calc(100vw - 2rem));
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  background: var(--color-danger);
+  color: #fff;
+  border-radius: 8px;
+  box-shadow: var(--shadow-card-hover);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s, transform 0.15s, visibility 0.15s;
+  z-index: 200; /* above the lightbox modal (z-index 100) and nav (10) */
+}
+
+.banner--visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.banner__close {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.1rem 0.2rem;
+}
+
+/* === Confirm Dialog === */
+.confirm-dialog {
+  border: none;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card-hover);
+  padding: 0;
+  width: min(360px, calc(100vw - 2rem));
+  margin: auto;
+}
+
+.confirm-dialog::backdrop {
+  background: rgba(17, 24, 39, 0.5);
+}
+
+.confirm-dialog__body {
+  padding: 1.25rem;
+}
+
+.confirm-dialog__message {
+  margin-bottom: 1rem;
+}
+
+.confirm-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+/* === Fetch Spinner === */
+.fetch-spinner {
+  position: fixed;
+  top: 4.25rem;
+  left: 50%;
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  z-index: 200;
+}
+
+@keyframes spin {
+  from { transform: translateX(-50%) rotate(0); } /* keep it centered: the */
+  to { transform: translateX(-50%) rotate(1turn); } /* keyframe transform IS the centering */
+}
+
+/* === Settings Drawer === */
+.settings-drawer {
+  position: fixed; /* explicit — don't rely on UA dialog:modal rules */
+  top: 0;
+  right: 0;
+  bottom: 0; /* height follows from the insets, not % resolution */
+  left: auto; /* UA inset: 0 would stretch it full-width otherwise */
+  margin: 0;
+  width: min(320px, 100vw);
+  max-width: 100%;
+  height: auto;
+  max-height: none; /* defeat UA dialog max-height clamp */
+  padding: 0;
+  overflow-y: auto; /* long section lists scroll inside the panel */
+  border: none;
+  background: var(--color-surface);
+}
+.settings-drawer::backdrop {
+  background: rgba(17, 24, 39, 0.5);
+}
+.settings-drawer[open] {
+  animation: drawer-slide-in 0.2s ease-out;
+}
+@keyframes drawer-slide-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+.settings-drawer__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.settings-drawer__title {
+  font-size: 1.1rem;
+  margin: 0;
+}
+.settings-drawer__close {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  padding: 0.2rem 0.3rem;
+}
+.settings-drawer__close:hover {
+  color: var(--color-text);
+}
+.settings-drawer__sections {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+.settings-drawer__section {
+  padding: 0.75rem 1.25rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+.settings-drawer__section:hover {
+  background: var(--color-bg);
+  color: var(--color-accent);
+}
+.settings-open-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  padding: 0.4rem;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+}
+.settings-open-btn:hover {
+  color: var(--color-text);
+  background: var(--color-border);
+}
+.settings-open-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* === Settings / Data page === */
+.settings-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+.settings-block h2 {
+  margin-top: 0;
+}
+.import-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.settings-status {
+  margin: 0.75rem 0 0;
+  color: var(--color-text-muted);
+}
+.settings-status--ok {
+  color: var(--color-active);
+}
+
+/* === Nav (mobile): gear button height matches the shrunk .btn rows === */
+@media (max-width: 640px) {
+  .settings-open-btn {
+    padding: 0.25rem;
+  }
+
+  .settings-open-btn svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Bike — Bike View</title>
+  <link rel="icon" type="image/jpeg" href="/static/img/favicon.jpg">
+  <link rel="stylesheet" href="/static/css/app.css">
+</head>
+<body>
+  <nav class="nav">
+    <div class="container">
+      <a href="/" class="nav__title">Bike View</a>
+      <div class="nav__actions">
+        <a href="/bikes/new" class="btn btn--primary">+ Add Bike</a>
+        <a href="/pills" class="btn btn--ghost">Pills</a>
+        <button type="button" class="settings-open-btn" id="settings-open-btn" aria-label="Open settings" title="Settings">
+          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <a href="/" class="back-link" id="form-back-link">Back to all bikes</a>
+
+    <div class="bike-form">
+      <h1 id="form-title">Add New Bike</h1>
+
+      <form id="bike-form">
+        <div class="form-field">
+          <label for="name">Name *</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-field">
+          <label>Images</label>
+          <div class="upload-zone" id="upload-zone">
+            <p>Drag &amp; drop images here, or click to browse</p>
+            <input type="file" id="image-file-input" multiple accept="image/*" hidden>
+          </div>
+          <div id="image-list" class="image-list"></div>
+          <p class="pill-note" id="image-note">The first image becomes the primary photo — drag rows to reorder before saving.</p>
+        </div>
+
+        <div class="form-field">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="3"></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="full_story">Full Story</label>
+          <textarea id="full_story" name="full_story" rows="10"></textarea>
+        </div>
+
+        <div class="form-field">
+          <label>Status</label>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="status" value="active" checked> Active
+            </label>
+            <label>
+              <input type="radio" name="status" value="former"> Former
+            </label>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="acquired_on">Acquired On</label>
+          <input type="date" id="acquired_on" name="acquired_on">
+        </div>
+
+        <div class="form-field">
+          <label for="retired_on">Retired On</label>
+          <input type="date" id="retired_on" name="retired_on">
+        </div>
+
+        <div class="form-field">
+          <label>Pills</label>
+          <div class="pill-selector" id="pill-selector"></div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn--primary" id="form-submit">Add Bike</button>
+          <a href="/" class="btn btn--ghost" id="form-cancel">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <dialog id="confirm-dialog" class="confirm-dialog">
+    <div class="confirm-dialog__body">
+      <p class="confirm-dialog__message" id="confirm-dialog-message"></p>
+      <div class="confirm-dialog__actions">
+        <button type="button" class="btn btn--ghost" id="confirm-cancel" autofocus>Cancel</button>
+        <button type="button" class="btn btn--danger" id="confirm-ok">Delete</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="settings-drawer" class="settings-drawer">
+    <div class="settings-drawer__header">
+      <h2 class="settings-drawer__title">Settings</h2>
+      <button type="button" class="settings-drawer__close" id="settings-close-btn" aria-label="Close settings">&times;</button>
+    </div>
+    <nav class="settings-drawer__sections" aria-label="Settings sections">
+      <a href="/settings/data" class="settings-drawer__section">Data</a>
+    </nav>
+  </dialog>
+
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/ui.js"></script>
+  <script src="/static/js/image-fallback.js"></script>
+  <script src="/static/js/confirm-dialog.js"></script>
+  <script src="/static/js/settings-drawer.js"></script>
+  <script src="/static/js/render/form.js"></script>
+  <script src="/static/js/image-upload.js"></script>
+</body>
+</html>
